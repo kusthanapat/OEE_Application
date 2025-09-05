@@ -1,11 +1,12 @@
-{% extends 'base.html' %} 
-{% block content %}
+{% extends 'base.html' %} {% block content %}
 <div class="bg-white rounded-lg shadow p-6 max-w-md mx-auto">
   <h2 class="text-2xl font-bold text-center mb-6">Register</h2>
 
   <form method="POST" action="{{ url_for('register') }}" class="space-y-4">
     <div>
-      <label for="firstName" class="block text-sm font-medium text-gray-700">First Name</label>
+      <label for="firstName" class="block text-sm font-medium text-gray-700"
+        >First Name</label
+      >
       <input
         type="text"
         id="firstName"
@@ -17,7 +18,9 @@
     </div>
 
     <div>
-      <label for="lastName" class="block text-sm font-medium text-gray-700">Last Name</label>
+      <label for="lastName" class="block text-sm font-medium text-gray-700"
+        >Last Name</label
+      >
       <input
         type="text"
         id="lastName"
@@ -29,7 +32,9 @@
     </div>
 
     <div>
-      <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+      <label for="username" class="block text-sm font-medium text-gray-700"
+        >Username</label
+      >
       <input
         type="text"
         id="username"
@@ -41,8 +46,12 @@
     </div>
 
     <div>
-      <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-      <div class="flex rounded-md border border-gray-300 transition focus-within:border-blue-500 focus-within:shadow-md">
+      <label for="password" class="block text-sm font-medium text-gray-700"
+        >Password</label
+      >
+      <div
+        class="flex rounded-md border border-gray-300 transition focus-within:border-blue-500 focus-within:shadow-md"
+      >
         <input
           type="password"
           id="password"
@@ -67,8 +76,14 @@
     </div>
 
     <div>
-      <label for="confirm_password" class="block text-sm font-medium text-gray-700">Confirm Password</label>
-      <div class="flex rounded-md border border-gray-300 transition focus-within:border-blue-500 focus-within:shadow-md">
+      <label
+        for="confirm_password"
+        class="block text-sm font-medium text-gray-700"
+        >Confirm Password</label
+      >
+      <div
+        class="flex rounded-md border border-gray-300 transition focus-within:border-blue-500 focus-within:shadow-md"
+      >
         <input
           type="password"
           id="confirm_password"
@@ -102,11 +117,13 @@
 
   <p class="mt-4 text-sm text-center text-gray-600">
     Already have an account?
-    <a href="{{ url_for('login') }}" class="text-blue-600 hover:underline">Login</a>
+    <a href="{{ url_for('login') }}" class="text-blue-600 hover:underline"
+      >Login</a
+    >
   </p>
 </div>
 
-<script>
+<!-- <script>
 // Toggle password visibility
 const togglePassword = document.querySelector("#togglePassword");
 const password = document.querySelector("#password");
@@ -130,5 +147,58 @@ toggleConfirmPassword.addEventListener("click", function () {
   eyeIconConfirm.classList.toggle("opacity-100");
   eyeIconConfirm.classList.toggle("opacity-70");
 });
+</script> -->
+<script>
+  // Toggle password visibility (เหมือนเดิม)
+  const togglePassword = document.querySelector("#togglePassword");
+  const password = document.querySelector("#password");
+  const eyeIcon = document.querySelector("#eyeIcon");
+
+  togglePassword.addEventListener("click", function () {
+    const type =
+      password.getAttribute("type") === "password" ? "text" : "password";
+    password.setAttribute("type", type);
+    eyeIcon.classList.toggle("opacity-100");
+    eyeIcon.classList.toggle("opacity-70");
+  });
+
+  // Toggle confirm password visibility (เหมือนเดิม)
+  const toggleConfirmPassword = document.querySelector(
+    "#toggleConfirmPassword"
+  );
+  const confirmPassword = document.querySelector("#confirm_password");
+  const eyeIconConfirm = document.querySelector("#eyeIconConfirm");
+
+  toggleConfirmPassword.addEventListener("click", function () {
+    const type =
+      confirmPassword.getAttribute("type") === "password" ? "text" : "password";
+    confirmPassword.setAttribute("type", type);
+    eyeIconConfirm.classList.toggle("opacity-100");
+    eyeIconConfirm.classList.toggle("opacity-70");
+  });
+
+  // ✅ Password validation ก่อน submit
+  const form = document.querySelector("form");
+  form.addEventListener("submit", function (e) {
+    const passwordValue = password.value;
+    const confirmPasswordValue = confirmPassword.value;
+
+    // Regex: อย่างน้อย 8 ตัว มีตัวเล็ก ตัวใหญ่ และตัวเลข
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+
+    if (!passwordRegex.test(passwordValue)) {
+      e.preventDefault();
+      alert(
+        "Password ต้องมีอย่างน้อย 8 ตัว และประกอบด้วย ตัวพิมพ์ใหญ่, พิมพ์เล็ก และตัวเลข"
+      );
+      return;
+    }
+
+    if (passwordValue !== confirmPasswordValue) {
+      e.preventDefault();
+      alert("Password และ Confirm Password ต้องตรงกัน");
+      return;
+    }
+  });
 </script>
 {% endblock %}
